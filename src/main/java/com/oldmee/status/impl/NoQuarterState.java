@@ -9,7 +9,7 @@ import com.oldmee.status.State;
  * @Date: Create in 14:21 2019/1/11
  */
 public class NoQuarterState implements State {
-    GumballMachine gumballMachine;
+    transient GumballMachine gumballMachine;
 
     public NoQuarterState(GumballMachine gumballMachine) {
         this.gumballMachine = gumballMachine;
@@ -30,5 +30,10 @@ public class NoQuarterState implements State {
 
     public void dispense() {
         System.out.println("没给钱发个毛糖果啊");
+    }
+
+    @Override
+    public String toString() {
+        return "NoQuarterState";
     }
 }

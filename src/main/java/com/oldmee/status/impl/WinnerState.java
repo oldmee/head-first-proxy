@@ -9,7 +9,7 @@ import com.oldmee.status.State;
  * @Date: Create in 16:58 2019/1/11
  */
 public class WinnerState implements State {
-    GumballMachine gumballMachine;
+    transient GumballMachine gumballMachine;
 
     public WinnerState(GumballMachine gumballMachine) {
         this.gumballMachine = gumballMachine;
@@ -41,5 +41,10 @@ public class WinnerState implements State {
                 gumballMachine.setState(gumballMachine.getSoldOutState());
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "WinnerState";
     }
 }

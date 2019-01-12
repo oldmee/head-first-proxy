@@ -1,14 +1,18 @@
 package com.oldmee.machine;
 
+import com.oldmee.server.GumballMachineRemote;
 import com.oldmee.status.State;
 import com.oldmee.status.impl.*;
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 /**
  * @Author: R.oldmee
  * @Description:
  * @Date: Create in 11:24 2019/1/11
  */
-public class GumballMachine {
+public class GumballMachine extends UnicastRemoteObject implements GumballMachineRemote  {
     State soldOutState;
     State noQuarterState;
     State hasQuarterState;
@@ -17,14 +21,16 @@ public class GumballMachine {
 
     State state = soldOutState;
     int count = 0;
+    String location;
 
-    public GumballMachine(int numberGumballs) {
+    public GumballMachine(String location, int numberGumballs) throws RemoteException {
         soldOutState = new SoldOutState(this);
         noQuarterState = new NoQuarterState(this);
         hasQuarterState = new HasQuarterState(this);
         soldState = new SoldState(this);
         winnerState = new WinnerState(this);
         this.count = numberGumballs;
+        this.location = location;
         if (numberGumballs > 0) {
             state = noQuarterState;
         }
@@ -102,5 +108,9 @@ public class GumballMachine {
 
     public int getCount() {
         return count;
+    }
+
+    public String getLocation() {
+        return location;
     }
 }

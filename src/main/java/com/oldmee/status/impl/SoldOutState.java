@@ -9,7 +9,7 @@ import com.oldmee.status.State;
  * @Date: Create in 14:38 2019/1/11
  */
 public class SoldOutState implements State {
-    GumballMachine gumballMachine;
+    transient GumballMachine gumballMachine;
 
     public SoldOutState(GumballMachine gumballMachine) {
         this.gumballMachine = gumballMachine;
@@ -29,5 +29,10 @@ public class SoldOutState implements State {
 
     public void dispense() {
         System.out.println("糖果都卖完了，还发个屁啊");
+    }
+
+    @Override
+    public String toString() {
+        return "SoldOutState";
     }
 }

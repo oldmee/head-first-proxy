@@ -1,8 +1,15 @@
 package com.oldmee;
 
 import com.oldmee.machine.GumballMachine;
-import com.oldmee.machine.GumballMachine_old;
+import com.oldmee.machine.GumballMonitor;
+import com.oldmee.server.MyRemote;
 import org.junit.Test;
+
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 
 /**
  * @Author: R.oldmee
@@ -12,52 +19,37 @@ import org.junit.Test;
 public class GumballMachineTestDriver {
 
     @Test
-    public void gumballMachineWithStateTest() {
-        GumballMachine gumballMachine = new GumballMachine(2);
-        gumballMachine.insertQuarter();
-        gumballMachine.ejectQuarter();
-
-        gumballMachine.insertQuarter();
-        gumballMachine.turnCrank();
-
-        gumballMachine.turnCrank();
-
+    public void rmicTest() {
+        try {
+            MyRemote service = (MyRemote) Naming.lookup("rmi://localhost:8080/RemoteHello");
+            System.out.println(service.sayHello());
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    public void gumballMachineTest() {
-        GumballMachine_old gumballMachine = new GumballMachine_old(5);
+    public void moniteTest() throws RemoteException {
+        GumballMachine gumballMachine = new GumballMachine("黄土高坡",2);
+        GumballMonitor monitor = new GumballMonitor(gumballMachine);
+        monitor.report();
+    }
 
-        gumballMachine.insertQuarter();
-        gumballMachine.turnCrank();
-
-        gumballMachine.ejectQuarter();
-
-        gumballMachine.insertQuarter();
-        gumballMachine.insertQuarter();
-
-        gumballMachine.turnCrank();
-        gumballMachine.turnCrank();
-
-        System.out.println(gumballMachine);
-
-        gumballMachine.disspense();
-
+    @Test
+    public void gumballMachineWithStateTest() throws RemoteException {
+        GumballMachine gumballMachine = new GumballMachine("美国芝加哥",2);
         gumballMachine.insertQuarter();
         gumballMachine.ejectQuarter();
 
         gumballMachine.insertQuarter();
         gumballMachine.turnCrank();
 
-        gumballMachine.insertQuarter();
         gumballMachine.turnCrank();
-
-        System.out.println(gumballMachine);
-
-        gumballMachine.insertQuarter();
-        gumballMachine.turnCrank();
-
-        System.out.println(gumballMachine);
 
     }
+
 }
